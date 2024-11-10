@@ -8,6 +8,8 @@ import '../components/genre_selector.dart';
 import 'music_board_detail_page.dart';
 
 class MusicBoardListPage extends StatefulWidget {
+  const MusicBoardListPage({super.key});
+
   @override
   _MusicBoardListPageState createState() => _MusicBoardListPageState();
 }

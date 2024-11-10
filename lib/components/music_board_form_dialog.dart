@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import '../models/music_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+// MusicBoardFormDialog，添加和编辑音乐项的表单
 class MusicBoardFormDialog extends StatefulWidget {
   final MusicItem? musicItem;
   final Future<void> Function(MusicItem) onSubmit;
 
-  MusicBoardFormDialog({this.musicItem, required this.onSubmit});
+  const MusicBoardFormDialog({super.key, this.musicItem, required this.onSubmit});
 
   @override
   _MusicBoardFormDialogState createState() => _MusicBoardFormDialogState();
@@ -30,7 +32,8 @@ class _MusicBoardFormDialogState extends State<MusicBoardFormDialog> {
     genre = widget.musicItem?.genre ?? genres.first;
     imageUrl = widget.musicItem?.imageUrl ?? '';
     description = widget.musicItem?.description ?? '';
-    creatorId = widget.musicItem?.creatorId;
+    creatorId =
+        widget.musicItem?.creatorId ?? FirebaseAuth.instance.currentUser?.uid;
   }
 
   Future<void> _submitForm() async {
@@ -64,7 +67,8 @@ class _MusicBoardFormDialogState extends State<MusicBoardFormDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.musicItem == null ? 'Create Music Item' : 'Edit Music Item'),
+      title: Text(
+          widget.musicItem == null ? 'Create Music Item' : 'Edit Music Item'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(

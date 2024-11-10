@@ -4,6 +4,8 @@ import 'login_page.dart';
 import 'music_board_list_page.dart';
 
 class AuthGate extends StatelessWidget {
+  const AuthGate({super.key});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(

@@ -5,7 +5,7 @@ class GenreSelector extends StatelessWidget {
   final Function(String) onGenreSelected;
   final List<String> genres = ['All', 'Classic', 'Popular', 'Country', 'Electronic'];
 
-  GenreSelector({required this.selectedGenre, required this.onGenreSelected});
+  GenreSelector({super.key, required this.selectedGenre, required this.onGenreSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class GenreSelector extends StatelessWidget {
       color: Colors.white,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         itemCount: genres.length,
         itemBuilder: (context, index) {
           final genre = genres[index];

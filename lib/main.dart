@@ -8,10 +8,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MusicBoardApp());
+  runApp(const MusicBoardApp());
 }
 
 class MusicBoardApp extends StatelessWidget {
+  const MusicBoardApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +21,7 @@ class MusicBoardApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: AuthGate(),
+      home: const AuthGate(),
     );
   }
 }

@@ -8,7 +8,7 @@ import '../managers/music_board_document_manager.dart';
 class MusicBoardDetailPage extends StatelessWidget {
   final String docId;
 
-  MusicBoardDetailPage({required this.docId});
+  const MusicBoardDetailPage({super.key, required this.docId});
 
   void _showEditDialog(BuildContext context, MusicItem musicItem) {
     showDialog(
