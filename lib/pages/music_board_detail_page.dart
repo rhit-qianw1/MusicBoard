@@ -41,8 +41,8 @@ class MusicBoardDetailPage extends StatelessWidget {
             TextButton(
               onPressed: () {
                 MusicBoardDocumentManager().deleteMusicItem(docId);
-                Navigator.pop(context); // 关闭确认弹窗
-                Navigator.pop(context); // 返回列表页面
+                Navigator.pop(context); // Closes confirmation dialog
+                Navigator.pop(context); // Returns to list page
               },
               child: const Text('Delete'),
             ),
@@ -127,72 +127,74 @@ class MusicBoardDetailPage extends StatelessWidget {
           var data = snapshot.data!.data() as Map<String, dynamic>;
           MusicItem musicItem = MusicItem.fromMap(data);
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    height: 200,
-                    width: 200,
+          return SingleChildScrollView( // Make content scrollable
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      height: 200,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: musicItem.imageUrl.isNotEmpty
+                            ? Image.network(musicItem.imageUrl, fit: BoxFit.cover)
+                            : const Center(child: Text('No Image')),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Music Name: ${musicItem.name}',
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Artist Name: ${musicItem.artist}',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[700]),
+                  ),
+                  const Divider(height: 30, thickness: 1),
+                  const Text(
+                    'Genre',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
+                      color: _getGenreColor(musicItem.genre),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: musicItem.imageUrl.isNotEmpty
-                          ? Image.network(musicItem.imageUrl, fit: BoxFit.cover)
-                          : const Center(child: Text('No Image')),
+                    child: Text(
+                      musicItem.genre,
+                      style: const TextStyle(fontSize: 16, color: Colors.black54, fontWeight: FontWeight.w600),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  'Music Name: ${musicItem.name}',
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Artist Name: ${musicItem.artist}',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[700]),
-                ),
-                const Divider(height: 30, thickness: 1),
-                const Text(
-                  'Genre',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: _getGenreColor(musicItem.genre),
-                    borderRadius: BorderRadius.circular(20),
+                  const Divider(height: 30, thickness: 1),
+                  const Text(
+                    'Description',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  child: Text(
-                    musicItem.genre,
-                    style: const TextStyle(fontSize: 16, color: Colors.black54, fontWeight: FontWeight.w600),
+                  const SizedBox(height: 8),
+                  Text(
+                    musicItem.description,
+                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   ),
-                ),
-                const Divider(height: 30, thickness: 1),
-                const Text(
-                  'Description',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  musicItem.description,
-                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
