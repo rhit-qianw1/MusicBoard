@@ -98,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
         SnackBar(content: Text("Successfully signed in with Google!")),
       );
     } catch (e) {
+      print(e.toString());
       Navigator.of(context).pop(); // 登录失败时关闭弹窗
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Failed to sign in with Google.")),
