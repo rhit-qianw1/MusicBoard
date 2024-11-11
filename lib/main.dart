@@ -22,6 +22,7 @@ class MusicBoardApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
       home: const AuthGate(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

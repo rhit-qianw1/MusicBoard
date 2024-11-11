@@ -1,4 +1,5 @@
 class MusicItem {
+  final String id; // 添加 id 字段
   final String name;
   final String artist;
   final String genre;
@@ -7,6 +8,7 @@ class MusicItem {
   final String creatorId;
 
   MusicItem({
+    this.id = '', // 默认为空字符串
     required this.name,
     required this.artist,
     required this.genre,
@@ -26,8 +28,9 @@ class MusicItem {
     };
   }
 
-  static MusicItem fromMap(Map<String, dynamic> map) {
+  static MusicItem fromMap(Map<String, dynamic> map, {String id = ''}) {
     return MusicItem(
+      id: id, // 从参数中获取 id
       name: map['name'] ?? '',
       artist: map['artist'] ?? '',
       genre: map['genre'] ?? '',

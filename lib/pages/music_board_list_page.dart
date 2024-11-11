@@ -111,29 +111,33 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('musicBoard').snapshots(),
+        stream:
+            FirebaseFirestore.instance.collection('musicBoard').snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
 
           final musicItems = snapshot.data!.docs
-              .map((doc) => MusicItem.fromMap(doc.data() as Map<String, dynamic>))
+              .map((doc) {
+                return MusicItem.fromMap(doc.data() as Map<String, dynamic>,
+                    id: doc.id);
+              })
               .where((item) =>
                   (!_showOnlyMine || item.creatorId == userId) &&
                   (_selectedGenre == 'All' || item.genre == _selectedGenre))
               .toList();
 
           return GridView.builder(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(12),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: _calculateCrossAxisCount(context),
-              childAspectRatio: 0.8,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
+              childAspectRatio: 0.75,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
             ),
             itemCount: musicItems.length,
             itemBuilder: (context, index) {
               final musicItem = musicItems[index];
-              final docId = snapshot.data!.docs[index].id;
 
               return GestureDetector(
                 onTap: () {
@@ -141,37 +145,66 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => MusicBoardDetailPage(
-                        docId: docId,
+                        docId: musicItem.id,
                       ),
                     ),
                   );
                 },
-                child: Column(
-                  children: [
-                    Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(8),
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(12),
+                          ),
+                          child: musicItem.imageUrl.isNotEmpty
+                              ? Image.network(
+                                  musicItem.imageUrl,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                )
+                              : Container(
+                                  color: Colors.grey[300],
+                                  child: Icon(
+                                    Icons.music_note,
+                                    size: 50,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                        ),
                       ),
-                      child: musicItem.imageUrl.isNotEmpty
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                musicItem.imageUrl,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : Center(child: Text('No Image')),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      musicItem.name,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                      Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                        child: Column(
+                          children: [
+                            Text(
+                              musicItem.name,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              musicItem.artist,
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.grey[600]),
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
