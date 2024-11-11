@@ -76,17 +76,17 @@ class _MusicBoardFormDialogState extends State<MusicBoardFormDialog> {
             children: [
               TextFormField(
                 initialValue: name,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 onChanged: (value) => name = value,
               ),
               TextFormField(
                 initialValue: artist,
-                decoration: InputDecoration(labelText: 'Artist'),
+                decoration: const InputDecoration(labelText: 'Artist'),
                 onChanged: (value) => artist = value,
               ),
               DropdownButtonFormField<String>(
                 value: genre,
-                decoration: InputDecoration(labelText: 'Genre'),
+                decoration: const InputDecoration(labelText: 'Genre'),
                 items: genres.map((String genre) {
                   return DropdownMenuItem<String>(
                     value: genre,
@@ -103,12 +103,12 @@ class _MusicBoardFormDialogState extends State<MusicBoardFormDialog> {
               ),
               TextFormField(
                 initialValue: imageUrl,
-                decoration: InputDecoration(labelText: 'Image URL'),
+                decoration: const InputDecoration(labelText: 'Image URL'),
                 onChanged: (value) => imageUrl = value,
               ),
               TextFormField(
                 initialValue: description,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
                 onChanged: (value) => description = value,
               ),
             ],
@@ -120,13 +120,13 @@ class _MusicBoardFormDialogState extends State<MusicBoardFormDialog> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: _isSubmitting ? null : _submitForm,
           child: _isSubmitting
-              ? CircularProgressIndicator(strokeWidth: 2)
-              : Text('Submit'),
+              ? const CircularProgressIndicator(strokeWidth: 2)
+              : const Text('Submit'),
         ),
       ],
     );

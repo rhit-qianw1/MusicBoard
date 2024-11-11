@@ -42,17 +42,17 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Music Board'),
+        title: const Text('Music Board'),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () {
               FirebaseAuth.instance.signOut();
             },
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(60),
           child: GenreSelector(
             selectedGenre: _selectedGenre,
             onGenreSelected: (genre) {
@@ -69,7 +69,7 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
             Container(
               height: 80,
               color: Colors.grey[300],
-              child: Center(
+              child: const Center(
                 child: Text(
                   'Options',
                   style: TextStyle(
@@ -85,8 +85,8 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
                 padding: EdgeInsets.zero,
                 children: [
                   ListTile(
-                    leading: Icon(Icons.list),
-                    title: Text("Show All"),
+                    leading: const Icon(Icons.list),
+                    title: const Text("Show All"),
                     onTap: () {
                       setState(() {
                         _showOnlyMine = false;
@@ -95,8 +95,8 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text("Show Only Mine"),
+                    leading: const Icon(Icons.person),
+                    title: const Text("Show Only Mine"),
                     onTap: () {
                       setState(() {
                         _showOnlyMine = true;
@@ -115,7 +115,7 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
             FirebaseFirestore.instance.collection('musicBoard').snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
 
           final musicItems = snapshot.data!.docs
               .map((doc) {
@@ -128,7 +128,7 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
               .toList();
 
           return GridView.builder(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: _calculateCrossAxisCount(context),
               childAspectRatio: 0.75,
@@ -159,7 +159,7 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
                     children: [
                       Expanded(
                         child: ClipRRect(
-                          borderRadius: BorderRadius.vertical(
+                          borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(12),
                           ),
                           child: musicItem.imageUrl.isNotEmpty
@@ -185,13 +185,13 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
                           children: [
                             Text(
                               musicItem.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               musicItem.artist,
                               style: TextStyle(
@@ -215,7 +215,7 @@ class _MusicBoardListPageState extends State<MusicBoardListPage> {
         onPressed: () {
           _showAddDialog(context);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

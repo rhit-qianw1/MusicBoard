@@ -29,14 +29,14 @@ class MusicBoardDetailPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delete Confirmation'),
-          content: Text('Are you sure you want to delete this item?'),
+          title: const Text('Delete Confirmation'),
+          content: const Text('Are you sure you want to delete this item?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -44,7 +44,7 @@ class MusicBoardDetailPage extends StatelessWidget {
                 Navigator.pop(context); // 关闭确认弹窗
                 Navigator.pop(context); // 返回列表页面
               },
-              child: Text('Delete'),
+              child: const Text('Delete'),
             ),
           ],
         );
@@ -73,12 +73,12 @@ class MusicBoardDetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Music Board'),
+        title: const Text('Music Board'),
         actions: [
           StreamBuilder<DocumentSnapshot>(
             stream: FirebaseFirestore.instance.collection('musicBoard').doc(docId).snapshots(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData || snapshot.data == null) return SizedBox.shrink();
+              if (!snapshot.hasData || snapshot.data == null) return const SizedBox.shrink();
               final data = snapshot.data!.data() as Map<String, dynamic>?;
               if (data == null) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -86,7 +86,7 @@ class MusicBoardDetailPage extends StatelessWidget {
                     Navigator.pop(context);
                   }
                 });
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
               }
               final musicItem = MusicItem.fromMap(data);
 
@@ -94,12 +94,12 @@ class MusicBoardDetailPage extends StatelessWidget {
                 children: [
                   if (musicItem.creatorId == userId)
                     IconButton(
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                       onPressed: () => _showEditDialog(context, musicItem),
                     ),
                   if (musicItem.creatorId == userId)
                     IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       onPressed: () => _showDeleteDialog(context),
                     ),
                 ],
@@ -112,7 +112,7 @@ class MusicBoardDetailPage extends StatelessWidget {
         stream: FirebaseFirestore.instance.collection('musicBoard').doc(docId).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.data?.exists == false) {
@@ -121,14 +121,14 @@ class MusicBoardDetailPage extends StatelessWidget {
                 Navigator.pop(context);
               }
             });
-            return SizedBox();
+            return const SizedBox();
           }
 
           var data = snapshot.data!.data() as Map<String, dynamic>;
           MusicItem musicItem = MusicItem.fromMap(data);
 
           return Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -143,7 +143,7 @@ class MusicBoardDetailPage extends StatelessWidget {
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
                           blurRadius: 10,
-                          offset: Offset(0, 5),
+                          offset: const Offset(0, 5),
                         ),
                       ],
                     ),
@@ -151,43 +151,43 @@ class MusicBoardDetailPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: musicItem.imageUrl.isNotEmpty
                           ? Image.network(musicItem.imageUrl, fit: BoxFit.cover)
-                          : Center(child: Text('No Image')),
+                          : const Center(child: Text('No Image')),
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   'Music Name: ${musicItem.name}',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   'Artist Name: ${musicItem.artist}',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[700]),
                 ),
-                Divider(height: 30, thickness: 1),
-                Text(
+                const Divider(height: 30, thickness: 1),
+                const Text(
                   'Genre',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: _getGenreColor(musicItem.genre),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     musicItem.genre,
-                    style: TextStyle(fontSize: 16, color: Colors.black54, fontWeight: FontWeight.w600),
+                    style: const TextStyle(fontSize: 16, color: Colors.black54, fontWeight: FontWeight.w600),
                   ),
                 ),
-                Divider(height: 30, thickness: 1),
-                Text(
+                const Divider(height: 30, thickness: 1),
+                const Text(
                   'Description',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   musicItem.description,
                   style: TextStyle(fontSize: 16, color: Colors.grey[600]),
